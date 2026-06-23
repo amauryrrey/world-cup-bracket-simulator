@@ -59,7 +59,7 @@ function buildGroupsHTML() {
                         <span>${t1}</span>
                         <div class="scoreboard-inputs">
                             <input type="number" min="0" id="${id1}" value="${val1}" ${readonlyAttr} oninput="calculate()">
-                            <div class="score-divider">-</div>
+                            <div class="score-divider">26</div>
                             <input type="number" min="0" id="${id2}" value="${val2}" ${readonlyAttr} oninput="calculate()">
                         </div>
                         <span>${t2}</span>
