@@ -25,7 +25,7 @@ const predefinedScores = {
     G: { 0: [1, 1], 1: [2, 2], 2: [0, 0], 3: [3, 1] },
     H: { 0: [0, 0], 1: [1, 1], 2: [4, 0], 3: [2, 2] },
     I: { 0: [3, 1], 1: [1, 4], 2: [3, 0], 3: [2, 3] },
-    J: { 0: [4, 0], 1: [3, 1], 2: [2, 0] },
+    J: { 0: [4, 0], 1: [3, 1], 2: [2, 0], 4: [0, 0] },
     K: { 0: [1, 1], 1: [1, 3] },
     L: { 0: [4, 2], 1: [1, 0] }
 };
@@ -58,7 +58,8 @@ function buildGroupsHTML() {
             html += `<div class="match">
                         <span>${t1}</span>
                         <div class="scoreboard-inputs">
-                            <input type="number" min="0" id="${id1}" value="${val1}" ${readonlyAttr} oninput="calculate()"> - 
+                            <input type="number" min="0" id="${id1}" value="${val1}" ${readonlyAttr} oninput="calculate()">
+                            <div class="score-divider">26</div>
                             <input type="number" min="0" id="${id2}" value="${val2}" ${readonlyAttr} oninput="calculate()">
                         </div>
                         <span>${t2}</span>
@@ -71,6 +72,43 @@ function buildGroupsHTML() {
     }
     container.innerHTML = html;
 }
+
+// --- FUNCIONES DE LOCAL STORAGE ---
+function saveToStorage() {
+    // Guardar marcadores que no sean de solo lectura
+    let userScores = {};
+    const inputs = document.querySelectorAll('input[type="number"]');
+    inputs.forEach(input => {
+        if (!input.readOnly && input.value !== "") {
+            userScores[input.id] = input.value;
+        }
+    });
+    localStorage.setItem('wc26_scores', JSON.stringify(userScores));
+    
+    // Guardar llaves del bracket
+    localStorage.setItem('wc26_picks', JSON.stringify(knockoutPicks));
+}
+
+function loadFromStorage() {
+    // Cargar marcadores guardados
+    let savedScores = localStorage.getItem('wc26_scores');
+    if (savedScores) {
+        savedScores = JSON.parse(savedScores);
+        for (let id in savedScores) {
+            let input = document.getElementById(id);
+            if (input && !input.readOnly) {
+                input.value = savedScores[id];
+            }
+        }
+    }
+    
+    // Cargar selecciones del bracket
+    let savedPicks = localStorage.getItem('wc26_picks');
+    if (savedPicks) {
+        knockoutPicks = JSON.parse(savedPicks);
+    }
+}
+// ----------------------------------
 
 function calculate() {
     stats = {};
@@ -97,6 +135,7 @@ function calculate() {
     }
 
     updateStandingsAndBracket();
+    saveToStorage(); // Guardamos el progreso cada que meten un número
 }
 
 function updateStandingsAndBracket() {
@@ -156,6 +195,7 @@ window.makePick = function(matchId, selectedTeam) {
     if (!selectedTeam || selectedTeam === 'Por definir' || selectedTeam === '---') return;
     knockoutPicks[matchId] = selectedTeam;
     updateStandingsAndBracket(); 
+    saveToStorage(); // Guardamos el progreso al hacer clic en el bracket
 }
 
 function drawBracket(standings, bestEightThirds) {
@@ -260,5 +300,7 @@ function drawBracket(standings, bestEightThirds) {
     container.innerHTML = html;
 }
 
+// INICIALIZACIÓN
 buildGroupsHTML();
-calculate();
+loadFromStorage(); // Recupera datos antes de calcular
+calculate();       // Dispara toda la lógica y dibuja el bracket
