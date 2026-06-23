@@ -1,257 +1,257 @@
 /* =========================================
-   VARIABLES DE COLOR - ESTILO MUNDIAL 2026
-   ========================================= */
-:root {
-    --bg-body: #0a0b10;
-    --bg-card: #151823;
-    --bg-scoreboard: #000000;
-    --text-main: #f8f9fa;
-    --text-muted: #8b949e;
-    --border-color: #2d3343;
-    
-    /* Colores Neón Mundial 2026 */
-    --neon-green: #00ff85;
-    --neon-cyan: #00e5ff;
-    --neon-magenta: #ff007a;
-    --neon-purple: #9d00ff;
-    
-    /* Estados */
-    --qual-direct: rgba(0, 255, 133, 0.15); /* Verde suave */
-    --qual-third: rgba(0, 229, 255, 0.15); /* Cyan suave */
-    --eliminated: rgba(255, 0, 122, 0.15); /* Magenta suave */
-}
+           VARIABLES DE COLOR - ESTILO MUNDIAL 2026
+           ========================================= */
+        :root {
+            --bg-body: #0a0b10;
+            --bg-card: #151823;
+            --bg-scoreboard: #000000;
+            --text-main: #f8f9fa;
+            --text-muted: #8b949e;
+            --border-color: #2d3343;
+            
+            /* Colores Neón Mundial 2026 */
+            --neon-green: #00ff85;
+            --neon-cyan: #00e5ff;
+            --neon-magenta: #ff007a;
+            --neon-purple: #9d00ff;
+            
+            /* Estados */
+            --qual-direct: rgba(0, 255, 133, 0.15); /* Verde suave */
+            --qual-third: rgba(0, 229, 255, 0.15); /* Cyan suave */
+            --eliminated: rgba(255, 0, 122, 0.15); /* Magenta suave */
+        }
 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background-color: var(--bg-body);
-    color: var(--text-main);
-    margin: 0;
-    padding: 30px 20px;
-}
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0;
+            padding: 30px 20px;
+        }
 
-/* --- TIPOGRAFÍA Y TÍTULOS --- */
-h1 {
-    text-align: center;
-    font-size: 3em;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: -1px;
-    margin-bottom: 40px;
-    /* Degradado 2026 */
-    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta), var(--neon-purple));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
+        /* --- TIPOGRAFÍA Y TÍTULOS --- */
+        h1 {
+            text-align: center;
+            font-size: 3em;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            margin-bottom: 40px;
+            /* Degradado 2026 */
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-h2 {
-    text-align: center;
-    font-size: 1.8em;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 25px;
-    border-bottom: 2px solid var(--border-color);
-    padding-bottom: 10px;
-    display: inline-block;
-    width: 100%;
-}
+        h2 {
+            text-align: center;
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            width: 100%;
+        }
 
-h3 {
-    text-align: center;
-    color: var(--neon-cyan);
-    font-weight: 800;
-    text-transform: uppercase;
-    margin-top: 0;
-    letter-spacing: 1px;
-}
+        h3 {
+            text-align: center;
+            color: var(--neon-cyan);
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-top: 0;
+            letter-spacing: 1px;
+        }
 
-.container {
-    display: flex;
-    flex-direction: column;
-    gap: 60px;
-    max-width: 1400px;
-    margin: 0 auto;
-}
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
 
-/* --- FASE DE GRUPOS --- */
-#groups-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: 25px;
-}
+        /* --- FASE DE GRUPOS --- */
+        #groups-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 25px;
+        }
 
-.group-card {
-    background: var(--bg-card);
-    padding: 20px;
-    border-radius: 16px;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    transition: transform 0.2s;
-}
-.group-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(0, 229, 255, 0.3);
-}
+        .group-card {
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: transform 0.2s;
+        }
+        .group-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 229, 255, 0.3);
+        }
 
-/* --- MARCADORES (SCOREBOARD) --- */
-.match { 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    margin-bottom: 12px; 
-    font-size: 1em;
-    font-weight: 600;
-}
-.match span { flex: 1; }
-.match span:last-child { text-align: right; }
+        /* --- MARCADORES (SCOREBOARD) --- */
+        .match { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 12px; 
+            font-size: 1em;
+            font-weight: 600;
+        }
+        .match span { flex: 1; }
+        .match span:last-child { text-align: right; }
 
-.scoreboard-inputs {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    background: var(--bg-scoreboard);
-    padding: 4px 8px;
-    border-radius: 8px;
-    border: 1px solid #333;
-}
+        .scoreboard-inputs {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: var(--bg-scoreboard);
+            padding: 4px 8px;
+            border-radius: 8px;
+            border: 1px solid #333;
+        }
 
-.match input { 
-    width: 30px; 
-    height: 30px;
-    text-align: center; 
-    background: transparent;
-    color: #fff;
-    border: none;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 1.2em;
-    font-weight: bold;
-    outline: none;
-}
+        .match input { 
+            width: 30px; 
+            height: 30px;
+            text-align: center; 
+            background: transparent;
+            color: #fff;
+            border: none;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.2em;
+            font-weight: bold;
+            outline: none;
+        }
+        
+        /* Ocultar flechitas de los inputs numéricos */
+        .match input::-webkit-outer-spin-button,
+        .match input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .match input[type=number] { -moz-appearance: textfield; }
 
-/* Ocultar flechitas de los inputs numéricos */
-.match input::-webkit-outer-spin-button,
-.match input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-.match input[type=number] { -moz-appearance: textfield; }
+        /* Marcadores bloqueados */
+        .match input[readonly] { 
+            color: var(--neon-cyan); /* Color resaltado para los partidos ya jugados */
+            cursor: not-allowed; 
+        }
 
-/* Marcadores bloqueados */
-.match input[readonly] { 
-    color: var(--neon-cyan); 
-    cursor: not-allowed; 
-}
+        /* --- TABLAS DE POSICIONES --- */
+        .standings { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 20px; 
+            font-size: 0.9em; 
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .standings th, .standings td { 
+            text-align: center; 
+            padding: 10px 5px; 
+            border-bottom: 1px solid var(--border-color); 
+        }
+        .standings th { 
+            background-color: rgba(255,255,255,0.05); 
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8em;
+        }
+        .standings tr:last-child td { border-bottom: none; }
+        
+        /* Colores de clasificación en tablas */
+        .qualified { background-color: var(--qual-direct); border-left: 3px solid var(--neon-green); } 
+        .qualified-third { background-color: var(--qual-third); border-left: 3px solid var(--neon-cyan); } 
+        .eliminated { background-color: var(--eliminated); opacity: 0.7; border-left: 3px solid var(--neon-magenta); } 
 
-/* --- TABLAS DE POSICIONES --- */
-.standings { 
-    width: 100%; 
-    border-collapse: collapse; 
-    margin-top: 20px; 
-    font-size: 0.9em; 
-    background: rgba(0,0,0,0.2);
-    border-radius: 8px;
-    overflow: hidden;
-}
-.standings th, .standings td { 
-    text-align: center; 
-    padding: 10px 5px; 
-    border-bottom: 1px solid var(--border-color); 
-}
-.standings th { 
-    background-color: rgba(255,255,255,0.05); 
-    color: var(--text-muted);
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.8em;
-}
-.standings tr:last-child td { border-bottom: none; }
+        #thirds-table { 
+            max-width: 700px; 
+            margin: 0 auto; 
+            border: 1px solid var(--border-color);
+        }
 
-/* Colores de clasificación en tablas */
-.qualified { background-color: var(--qual-direct); border-left: 3px solid var(--neon-green); } 
-.qualified-third { background-color: var(--qual-third); border-left: 3px solid var(--neon-cyan); } 
-.eliminated { background-color: var(--eliminated); opacity: 0.7; border-left: 3px solid var(--neon-magenta); } 
+        /* --- FASE ELIMINATORIA (BRACKET) --- */
+        #bracket-wrapper {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            overflow-x: auto; 
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+        }
 
-#thirds-table { 
-    max-width: 700px; 
-    margin: 0 auto; 
-    border: 1px solid var(--border-color);
-}
+        .bracket-layout {
+            display: flex;
+            gap: 40px;
+            min-width: 1100px; 
+        }
 
-/* --- FASE ELIMINATORIA (BRACKET) --- */
-#bracket-wrapper {
-    background: var(--bg-card);
-    padding: 30px;
-    border-radius: 16px;
-    border: 1px solid var(--border-color);
-    overflow-x: auto; 
-    box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
-}
+        .round-col {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            flex: 1;
+        }
 
-.bracket-layout {
-    display: flex;
-    gap: 40px;
-    min-width: 1100px; 
-}
+        .round-col h3 {
+            font-size: 13px;
+            margin-bottom: 20px;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+        }
 
-.round-col {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    flex: 1;
-}
+        .matchup {
+            background: var(--bg-body);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            margin: 8px 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            position: relative;
+        }
 
-.round-col h3 {
-    font-size: 13px;
-    margin-bottom: 20px;
-    color: var(--text-muted);
-    letter-spacing: 2px;
-}
+        .team-slot {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+            font-size: 0.9em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: all 0.2s ease;
+            color: var(--text-main);
+        }
+        
+        .team-slot:last-child { border-bottom: none; }
+        .team-slot.empty { color: var(--text-muted); font-style: italic; font-weight: normal; }
+        
+        /* Interacciones del Bracket */
+        .team-slot.clickable { cursor: pointer; }
+        
+        .team-slot.clickable:hover { 
+            background-color: rgba(255, 255, 255, 0.05); 
+            color: var(--neon-cyan);
+        }
 
-.matchup {
-    background: var(--bg-body);
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-    margin: 8px 0;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-    position: relative;
-}
+        /* El equipo ganador seleccionado */
+        .team-slot.picked { 
+            background: linear-gradient(90deg, var(--neon-green), #00cc6a); 
+            color: #000; 
+            font-weight: 800;
+            box-shadow: 0 0 15px rgba(0, 255, 133, 0.4);
+            z-index: 1;
+        }
 
-.team-slot {
-    padding: 10px 12px;
-    border-bottom: 1px solid var(--border-color);
-    font-weight: 600;
-    font-size: 0.9em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    transition: all 0.2s ease;
-    color: var(--text-main);
-}
-
-.team-slot:last-child { border-bottom: none; }
-.team-slot.empty { color: var(--text-muted); font-style: italic; font-weight: normal; }
-
-/* Interacciones del Bracket */
-.team-slot.clickable { cursor: pointer; }
-
-.team-slot.clickable:hover { 
-    background-color: rgba(255, 255, 255, 0.05); 
-    color: var(--neon-cyan);
-}
-
-/* El equipo ganador seleccionado */
-.team-slot.picked { 
-    background: linear-gradient(90deg, var(--neon-green), #00cc6a); 
-    color: #000; 
-    font-weight: 800;
-    box-shadow: 0 0 15px rgba(0, 255, 133, 0.4);
-    z-index: 1;
-}
-
-/* Detalles estéticos para la info extra */
-.subtitle-info {
-    text-align: center; 
-    font-size: 0.9em; 
-    color: var(--text-muted); 
-    margin-top: -15px;
-    margin-bottom: 25px;
-}
+        /* Detalles estéticos para la info extra */
+        .subtitle-info {
+            text-align: center; 
+            font-size: 0.9em; 
+            color: var(--text-muted); 
+            margin-top: -15px;
+            margin-bottom: 25px;
+        }
