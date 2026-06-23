@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Mundial 2026</title>
+    <!-- Vinculamos el archivo CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <h1>Simulador 2026</h1>
+    
+    <div class="container">
+        <div>
+            <h2>Fase de Grupos</h2>
+            <div id="groups-container"></div>
+        </div>
+
+        <div>
+            <h2>Terceros Lugares</h2>
+            <p class="subtitle-info">Clasifican los 8 mejores a los 16avos de Final.</p>
+            <table class="standings" id="thirds-table">
+                <thead><tr><th>Pos</th><th>Grupo</th><th>Equipo</th><th>PTS</th><th>DG</th><th>GF</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div>
+            <h2>Fase Eliminatoria</h2>
+            <p class="subtitle-info" style="color: var(--neon-cyan); font-weight: bold; letter-spacing: 0.5px;">
+                Crea tu camino a la final. Haz clic en un equipo para avanzarlo de ronda.
+            </p>
+            <div id="bracket-wrapper">
+                <div id="bracket-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cargamos la matriz primero -->
+    <script src="matriz_fifa.js"></script>
+    <!-- Vinculamos tu lógica principal -->
+    <script src="script.js"></script>
+
+</body>
+</html>
