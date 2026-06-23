@@ -31,11 +31,15 @@ const predefinedScores = {
 };
 
 let stats = {};
-let knockoutPicks = {}; 
+// Cargamos los picks guardados del bracket en caso de que existan
+let knockoutPicks = JSON.parse(localStorage.getItem('worldCup2026Picks')) || {}; 
 
 function buildGroupsHTML() {
     const container = document.getElementById('groups-container');
     let html = '';
+
+    // Cargamos los scores guardados por el usuario desde LocalStorage
+    let savedScores = JSON.parse(localStorage.getItem('worldCup2026Scores')) || {};
 
     for (let group in fifaGroups) {
         let teams = fifaGroups[group];
@@ -49,10 +53,16 @@ function buildGroupsHTML() {
 
             let val1 = '', val2 = '', readonlyAttr = '';
 
+            // 1. Prioridad: Resultados predefinidos oficiales
             if (predefinedScores[group] && predefinedScores[group][index]) {
                 val1 = predefinedScores[group][index][0];
                 val2 = predefinedScores[group][index][1];
                 readonlyAttr = 'readonly';
+            } 
+            // 2. Prioridad: Resultados guardados por el usuario
+            else if (savedScores[group] && savedScores[group][index]) {
+                val1 = savedScores[group][index][0];
+                val2 = savedScores[group][index][1];
             }
             
             html += `<div class="match">
@@ -78,7 +88,9 @@ function calculate() {
         fifaGroups[group].forEach(team => { stats[team] = { pts: 0, gd: 0, gf: 0, group: group }; });
     }
 
+    let userScoresToSave = {};
     const inputs = document.querySelectorAll('input[type="number"]');
+
     for (let i = 0; i < inputs.length; i += 2) {
         if (inputs[i].value !== "" && inputs[i+1].value !== "") {
             let s1 = parseInt(inputs[i].value), s2 = parseInt(inputs[i+1].value);
@@ -87,14 +99,29 @@ function calculate() {
             let t1 = matchDiv.children[0].innerText;
             let t2 = matchDiv.children[2].innerText;
 
+            // Actualizamos la tabla
             stats[t1].gf += s1; stats[t2].gf += s2;
             stats[t1].gd += (s1 - s2); stats[t2].gd += (s2 - s1);
             
             if (s1 > s2) stats[t1].pts += 3;
             else if (s2 > s1) stats[t2].pts += 3;
             else { stats[t1].pts += 1; stats[t2].pts += 1; }
+
+            // Guardado en LocalStorage
+            let idParts = inputs[i].id.split('_'); // ej: ["match", "A", "0", "1"]
+            let group = idParts[1];
+            let index = idParts[2];
+
+            // Solo guardamos si NO está en predefinedScores
+            if (!(predefinedScores[group] && predefinedScores[group][index])) {
+                if (!userScoresToSave[group]) userScoresToSave[group] = {};
+                userScoresToSave[group][index] = [s1, s2];
+            }
         }
     }
+
+    // Guardamos los resultados del usuario
+    localStorage.setItem('worldCup2026Scores', JSON.stringify(userScoresToSave));
 
     updateStandingsAndBracket();
 }
@@ -155,6 +182,10 @@ function updateStandingsAndBracket() {
 window.makePick = function(matchId, selectedTeam) {
     if (!selectedTeam || selectedTeam === 'Por definir' || selectedTeam === '---') return;
     knockoutPicks[matchId] = selectedTeam;
+    
+    // También guardamos el bracket en el local storage
+    localStorage.setItem('worldCup2026Picks', JSON.stringify(knockoutPicks));
+    
     updateStandingsAndBracket(); 
 }
 
