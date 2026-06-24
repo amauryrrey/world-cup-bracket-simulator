@@ -85,7 +85,10 @@ function buildGroupsHTML() {
 function calculate() {
     stats = {};
     for (let group in fifaGroups) {
-        fifaGroups[group].forEach(team => { stats[team] = { pts: 0, gd: 0, gf: 0, group: group }; });
+        fifaGroups[group].forEach(team => { 
+            // Agregamos 'h2h' para guardar los enfrentamientos directos
+            stats[team] = { pts: 0, gd: 0, gf: 0, group: group, h2h: {} }; 
+        });
     }
 
     let userScoresToSave = {};
@@ -99,20 +102,24 @@ function calculate() {
             let t1 = matchDiv.children[0].innerText;
             let t2 = matchDiv.children[2].innerText;
 
-            // Actualizamos la tabla
+            // Actualizamos la tabla general
             stats[t1].gf += s1; stats[t2].gf += s2;
             stats[t1].gd += (s1 - s2); stats[t2].gd += (s2 - s1);
             
-            if (s1 > s2) stats[t1].pts += 3;
-            else if (s2 > s1) stats[t2].pts += 3;
-            else { stats[t1].pts += 1; stats[t2].pts += 1; }
+            let t1_pts = 0, t2_pts = 0;
+            if (s1 > s2) { stats[t1].pts += 3; t1_pts = 3; }
+            else if (s2 > s1) { stats[t2].pts += 3; t2_pts = 3; }
+            else { stats[t1].pts += 1; stats[t2].pts += 1; t1_pts = 1; t2_pts = 1; }
+
+            // Guardamos las estadísticas del enfrentamiento directo (Head-to-Head)
+            stats[t1].h2h[t2] = { pts: t1_pts, gd: (s1 - s2), gf: s1 };
+            stats[t2].h2h[t1] = { pts: t2_pts, gd: (s2 - s1), gf: s2 };
 
             // Guardado en LocalStorage
-            let idParts = inputs[i].id.split('_'); // ej: ["match", "A", "0", "1"]
+            let idParts = inputs[i].id.split('_'); 
             let group = idParts[1];
             let index = idParts[2];
 
-            // Solo guardamos si NO está en predefinedScores
             if (!(predefinedScores[group] && predefinedScores[group][index])) {
                 if (!userScoresToSave[group]) userScoresToSave[group] = {};
                 userScoresToSave[group][index] = [s1, s2];
@@ -120,9 +127,7 @@ function calculate() {
         }
     }
 
-    // Guardamos los resultados del usuario
     localStorage.setItem('worldCup2026Scores', JSON.stringify(userScoresToSave));
-
     updateStandingsAndBracket();
 }
 
@@ -132,8 +137,30 @@ function updateStandingsAndBracket() {
 
     for (let group in fifaGroups) {
         let sortedTeams = fifaGroups[group].sort((a, b) => {
+            // 0. Primero comparamos los puntos totales
             if (stats[b].pts !== stats[a].pts) return stats[b].pts - stats[a].pts;
+
+            // 1. Head-to-head (Si tienen los mismos puntos, revisamos su partido directo)
+            // Nos aseguramos de que ya hayan jugado entre ellos
+            if (stats[a].h2h[b] && stats[b].h2h[a]) {
+                // 1a. Points total en H2H
+                if (stats[b].h2h[a].pts !== stats[a].h2h[b].pts) {
+                    return stats[b].h2h[a].pts - stats[a].h2h[b].pts;
+                }
+                // 1b. Goal difference en H2H
+                if (stats[b].h2h[a].gd !== stats[a].h2h[b].gd) {
+                    return stats[b].h2h[a].gd - stats[a].h2h[b].gd;
+                }
+                // 1c. Goals scored en H2H
+                if (stats[b].h2h[a].gf !== stats[a].h2h[b].gf) {
+                    return stats[b].h2h[a].gf - stats[a].h2h[b].gf;
+                }
+            }
+
+            // 2. Overall goal difference (Diferencia de goles en todo el grupo)
             if (stats[b].gd !== stats[a].gd) return stats[b].gd - stats[a].gd;
+
+            // 3. Overall number of goals scored (Goles totales en todo el grupo)
             return stats[b].gf - stats[a].gf;
         });
 
@@ -153,11 +180,33 @@ function updateStandingsAndBracket() {
         });
     }
 
+    // Nota: El desempate de los mejores terceros NO usa Head-to-Head porque 
+    // no juegan entre ellos. Aquí se mantiene Puntos > Overall GD > Overall GF.
     thirdPlaces.sort((a, b) => {
         if (stats[b].pts !== stats[a].pts) return stats[b].pts - stats[a].pts;
         if (stats[b].gd !== stats[a].gd) return stats[b].gd - stats[a].gd;
         return stats[b].gf - stats[a].gf;
     });
+
+    const bestEightThirds = thirdPlaces.slice(0, 8);
+    bestEightThirds.forEach(team => {
+        let tr = document.querySelector(`tr[data-team="${team}"]`);
+        if(tr) tr.classList.add('qualified-third');
+    });
+
+    const thirdsTbody = document.querySelector('#thirds-table tbody');
+    thirdsTbody.innerHTML = '';
+    thirdPlaces.forEach((team, index) => {
+        let rowClass = index < 8 ? 'qualified-third' : 'eliminated';
+        thirdsTbody.innerHTML += `<tr class="${rowClass}">
+            <td><strong>${index + 1}</strong></td><td>${stats[team].group}</td><td>${team}</td>
+            <td><strong>${stats[team].pts}</strong></td>
+            <td>${stats[team].gd > 0 ? '+'+stats[team].gd : stats[team].gd}</td><td>${stats[team].gf}</td>
+        </tr>`;
+    });
+
+    drawBracket(standings, bestEightThirds);
+}
 
     const bestEightThirds = thirdPlaces.slice(0, 8);
     bestEightThirds.forEach(team => {
