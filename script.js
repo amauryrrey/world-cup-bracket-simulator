@@ -57,7 +57,6 @@ function buildGroupsHTML() {
             if (predefinedScores[group] && predefinedScores[group][index]) {
                 val1 = predefinedScores[group][index][0];
                 val2 = predefinedScores[group][index][1];
-                readonlyAttr = 'readonly';
             } 
             // 2. Prioridad: Resultados guardados por el usuario
             else if (savedScores[group] && savedScores[group][index]) {
